@@ -317,13 +317,10 @@ namespace Epoche
             bs[off + 3] = (byte)(n >> 24);
         }
 
-        static uint LE_To_UInt32(byte[] bs, int off)
-        {
-            return bs[off]
+        static uint LE_To_UInt32(byte[] bs, int off) => bs[off]
                    | ((uint)bs[off + 1] << 8)
                    | ((uint)bs[off + 2] << 16)
                    | ((uint)bs[off + 3] << 24);
-        }
 
         static void UInt64_To_LE(ulong n, byte[] bs, int off)
         {
@@ -333,7 +330,7 @@ namespace Epoche
 
         static void UInt64_To_LE(ulong[] ns, int nsOff, int nsLen, byte[] bs, int bsOff)
         {
-            for (int i = 0; i < nsLen; ++i)
+            for (var i = 0; i < nsLen; ++i)
             {
                 UInt64_To_LE(ns[nsOff + i], bs, bsOff);
                 bsOff += 8;
@@ -342,9 +339,9 @@ namespace Epoche
 
         static ulong LE_To_UInt64(byte[] bs, int off)
         {
-            uint lo = LE_To_UInt32(bs, off);
-            uint hi = LE_To_UInt32(bs, off + 4);
+            var lo = LE_To_UInt32(bs, off);
+            var hi = LE_To_UInt32(bs, off + 4);
             return ((ulong)hi << 32) | lo;
         }
     }
-}    
+}

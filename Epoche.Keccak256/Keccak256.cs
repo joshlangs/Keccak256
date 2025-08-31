@@ -31,10 +31,10 @@ namespace Epoche
             var buffer = new byte[8192];
             while (true)
             {
-                int r = await input.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
+                var r = await input.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
                 if (r == 0)
                 {
-                    byte[] hash = new byte[32];
+                    var hash = new byte[32];
                     hasher.DoFinal(hash, 0);
                     return hash;
                 }
@@ -57,12 +57,11 @@ namespace Epoche
         public static string ComputeEthereumFunctionSelector(string functionSignature, bool prefix0x = true)
         {
             var hash = ComputeHash(functionSignature);
-            string s = prefix0x ? "0x" : "";
-            s += hash[0].ToString("x2");
-            s += hash[1].ToString("x2");
-            s += hash[2].ToString("x2");
-            s += hash[3].ToString("x2");
-            return s;
+            return (prefix0x ? "0x" : "")
+                + hash[0].ToString("x2")
+                + hash[1].ToString("x2")
+                + hash[2].ToString("x2")
+                + hash[3].ToString("x2");
         }
     }
 }
