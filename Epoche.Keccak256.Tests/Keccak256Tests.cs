@@ -10,7 +10,6 @@ public class Keccak256Tests
     public async Task TestCases(string input, string expected)
     {
         var hash = Keccak256.ComputeHash(input).ToLowerHex();
-        var meow = Keccak256.ComputeEthereumFunctionSelector("initialize()");
         Assert.Equal(expected, Keccak256.ComputeHash(input).ToLowerHex());
         Assert.Equal(expected, Keccak256.ComputeHash(Encoding.UTF8.GetBytes(input)).ToLowerHex());
         Assert.Equal(expected, (await Keccak256.ComputeHashAsync(new MemoryStream(Encoding.UTF8.GetBytes(input)))).ToLowerHex());
