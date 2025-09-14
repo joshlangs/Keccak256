@@ -9,8 +9,14 @@ Published on Nuget with package name: `Keccak256`
 ```
 using Epoche;
 
-var hash = Keccak256.ComputeHash("transfer(address,uint256)"); 
+byte[] hash = Keccak256.ComputeHash("transfer(address,uint256)"); 
 // yields a byte array: a9059cbb2ab09eb219583f4a59a5d0623ade346d962bcd4e46b11da047c9049b
+
+string s = Keccak256.ComputeHashString("transfer(address,uint256)", false); 
+// yields a string: a9059cbb2ab09eb219583f4a59a5d0623ade346d962bcd4e46b11da047c9049b
+
+string s0x = Keccak256.ComputeHashString("transfer(address,uint256)", true); 
+// yields a string starting with 0x: 0xa9059cbb2ab09eb219583f4a59a5d0623ade346d962bcd4e46b11da047c9049b
 ```
 
 Or to compute an ethereum function selector:
