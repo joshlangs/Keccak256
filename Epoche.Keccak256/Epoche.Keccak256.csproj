@@ -9,11 +9,11 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/joshlangs/Keccak256</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<PackageTags>Keccak256; Ethereum</PackageTags>
+		<PackageTags>Keccak256; Ethereum; Keccak</PackageTags>
 		<PackageId>Keccak256</PackageId>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageProjectUrl>https://github.com/joshlangs/Keccak256</PackageProjectUrl>
-		<Version>1.0.1</Version>
+		<Version>1.0.2</Version>
 		
 	</PropertyGroup>
 

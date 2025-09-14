@@ -9,10 +9,17 @@ public class Keccak256Tests
     [InlineData("transfer(address,uint256)", "a9059cbb2ab09eb219583f4a59a5d0623ade346d962bcd4e46b11da047c9049b")]
     public async Task TestCases(string input, string expected)
     {
-        var hash = Keccak256.ComputeHash(input).ToLowerHex();
         Assert.Equal(expected, Keccak256.ComputeHash(input).ToLowerHex());
+        Assert.Equal(expected, Keccak256.ComputeHashString(input, false));
+        Assert.Equal("0x" + expected, Keccak256.ComputeHashString(input, true));
         Assert.Equal(expected, Keccak256.ComputeHash(Encoding.UTF8.GetBytes(input)).ToLowerHex());
+        Assert.Equal(expected, Keccak256.ComputeHashString(Encoding.UTF8.GetBytes(input), false));
+        Assert.Equal("0x" + expected, Keccak256.ComputeHashString(Encoding.UTF8.GetBytes(input), true));
         Assert.Equal(expected, (await Keccak256.ComputeHashAsync(new MemoryStream(Encoding.UTF8.GetBytes(input)))).ToLowerHex());
+        Assert.Equal(expected, await Keccak256.ComputeHashStringAsync(new MemoryStream(Encoding.UTF8.GetBytes(input)), false));
+        Assert.Equal("0x" + expected, await Keccak256.ComputeHashStringAsync(new MemoryStream(Encoding.UTF8.GetBytes(input)), true));
         Assert.Equal("0x" + expected[..8], Keccak256.ComputeEthereumFunctionSelector(input));
+        Assert.Equal("0x" + expected[..8], Keccak256.ComputeEthereumFunctionSelector(input, true));
+        Assert.Equal(expected[..8], Keccak256.ComputeEthereumFunctionSelector(input, false));
     }
 }
