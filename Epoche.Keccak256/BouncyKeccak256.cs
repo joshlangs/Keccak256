@@ -89,6 +89,12 @@ namespace Epoche
         {
             _dataQueue[_bitsInQueue >> 3] |= (byte)(1 << (_bitsInQueue & 7));
 
+            // Always false. Absorb only enqueues whole bytes and permutes every full
+            // rate block immediately, so _bitsInQueue is a multiple of 8 in [0, Rate).
+            // Rate is 1088 (also a multiple of 8), so the queue never holds Rate-1 bits.
+            // The increment adds the single leading pad10*1 bit and therefore lands at
+            // most on Rate-7 (1081), never on Rate. The true branch is only reachable
+            // from a bit-level absorb, which this port does not implement.
             if (++_bitsInQueue == Rate)
             {
                 KeccakAbsorb(_dataQueue, 0);
