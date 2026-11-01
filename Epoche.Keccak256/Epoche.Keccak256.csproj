@@ -14,8 +14,13 @@
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageProjectUrl>https://github.com/joshlangs/Keccak256</PackageProjectUrl>
 		<Version>1.0.2</Version>
+		<RootNamespace>Epoche</RootNamespace>
 		
 	</PropertyGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="Epoche.Keccak256.Tests" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="..\README.md">

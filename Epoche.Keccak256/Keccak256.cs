@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -31,12 +30,16 @@ namespace Epoche
                     Monitor.Exit(Hasher);
                 }
             }
+
             return ComputeHash(new BouncyKeccak256(), input, false);
         }
+
         public static byte[] ComputeHash(string input) => ComputeHash(Encoding.UTF8.GetBytes(input));
 
         public static string ComputeHashString(byte[] input, bool prefix0x) => Hex(ComputeHash(input), prefix0x);
-        public static string ComputeHashString(string input, bool prefix0x) => ComputeHashString(Encoding.UTF8.GetBytes(input), prefix0x);
+
+        public static string ComputeHashString(string input, bool prefix0x) =>
+            ComputeHashString(Encoding.UTF8.GetBytes(input), prefix0x);
 
 
         public static async Task<byte[]> ComputeHashAsync(Stream input, CancellationToken cancellationToken = default)
@@ -52,10 +55,14 @@ namespace Epoche
                     hasher.DoFinal(hash, 0);
                     return hash;
                 }
+
                 hasher.BlockUpdate(buffer, 0, r);
             }
         }
-        public static async Task<string> ComputeHashStringAsync(Stream input, bool prefix0x, CancellationToken cancellationToken = default) => Hex(await ComputeHashAsync(input, cancellationToken), prefix0x);
+
+        public static async Task<string> ComputeHashStringAsync(Stream input, bool prefix0x,
+            CancellationToken cancellationToken = default) =>
+            Hex(await ComputeHashAsync(input, cancellationToken), prefix0x);
 
         static byte[] ComputeHash(BouncyKeccak256 hasher, byte[] input, bool reset)
         {
@@ -63,12 +70,14 @@ namespace Epoche
             {
                 hasher.Reset();
             }
+
             hasher.BlockUpdate(input, 0, input.Length);
             var hash = new byte[32];
             hasher.DoFinal(hash, 0);
             return hash;
         }
 
-        public static string ComputeEthereumFunctionSelector(string functionSignature, bool prefix0x = true) => Hex(ComputeHash(functionSignature).Take(4), prefix0x);
+        public static string ComputeEthereumFunctionSelector(string functionSignature, bool prefix0x = true) =>
+            Hex(ComputeHash(functionSignature).Take(4), prefix0x);
     }
 }

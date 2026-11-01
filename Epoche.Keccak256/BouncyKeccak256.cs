@@ -56,7 +56,7 @@ namespace Epoche
             }
 
             var bytesInQueue = _bitsInQueue >> 3;
-            var rateBytes = Rate >> 3;
+            const int rateBytes = Rate >> 3;
 
             var available = rateBytes - bytesInQueue;
             if (len < available)
@@ -89,6 +89,12 @@ namespace Epoche
         {
             _dataQueue[_bitsInQueue >> 3] |= (byte)(1 << (_bitsInQueue & 7));
 
+            // Always false. Absorb only enqueues whole bytes and permutes every full
+            // rate block immediately, so _bitsInQueue is a multiple of 8 in [0, Rate).
+            // Rate is 1088 (also a multiple of 8), so the queue never holds Rate-1 bits.
+            // The increment adds the single leading pad10*1 bit and therefore lands at
+            // most on Rate-7 (1081), never on Rate. The true branch is only reachable
+            // from a bit-level absorb, which this port does not implement.
             if (++_bitsInQueue == Rate)
             {
                 KeccakAbsorb(_dataQueue, 0);
@@ -140,7 +146,7 @@ namespace Epoche
 
         void KeccakAbsorb(byte[] data, int off)
         {
-            var count = Rate >> 6;
+            const int count = Rate >> 6;
             for (var i = 0; i < count; ++i)
             {
                 _state[i] ^= LE_To_UInt64(data, off);
@@ -178,11 +184,11 @@ namespace Epoche
                 var c3 = a03 ^ a08 ^ a13 ^ a18 ^ a23;
                 var c4 = a04 ^ a09 ^ a14 ^ a19 ^ a24;
 
-                var d1 = ((c1 << 1) | (c1 >> -1)) ^ c4;
-                var d2 = ((c2 << 1) | (c2 >> -1)) ^ c0;
-                var d3 = ((c3 << 1) | (c3 >> -1)) ^ c1;
-                var d4 = ((c4 << 1) | (c4 >> -1)) ^ c2;
-                var d0 = ((c0 << 1) | (c0 >> -1)) ^ c3;
+                var d1 = ((c1 << 1) | (c1 >> 63)) ^ c4;
+                var d2 = ((c2 << 1) | (c2 >> 63)) ^ c0;
+                var d3 = ((c3 << 1) | (c3 >> 63)) ^ c1;
+                var d4 = ((c4 << 1) | (c4 >> 63)) ^ c2;
+                var d0 = ((c0 << 1) | (c0 >> 63)) ^ c3;
 
                 a00 ^= d1;
                 a05 ^= d1;
@@ -317,10 +323,8 @@ namespace Epoche
             bs[off + 3] = (byte)(n >> 24);
         }
 
-        static uint LE_To_UInt32(byte[] bs, int off) => bs[off]
-                   | ((uint)bs[off + 1] << 8)
-                   | ((uint)bs[off + 2] << 16)
-                   | ((uint)bs[off + 3] << 24);
+        static uint LE_To_UInt32(byte[] bs, int off) =>
+            bs[off] | ((uint)bs[off + 1] << 8) | ((uint)bs[off + 2] << 16) | ((uint)bs[off + 3] << 24);
 
         static void UInt64_To_LE(ulong n, byte[] bs, int off)
         {
