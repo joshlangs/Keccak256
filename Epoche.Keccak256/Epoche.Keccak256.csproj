@@ -19,6 +19,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<InternalsVisibleTo Include="Epoche.Keccak256.Tests" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Include="..\README.md">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>

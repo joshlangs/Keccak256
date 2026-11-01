@@ -56,7 +56,7 @@ namespace Epoche
             }
 
             var bytesInQueue = _bitsInQueue >> 3;
-            var rateBytes = Rate >> 3;
+            const int rateBytes = Rate >> 3;
 
             var available = rateBytes - bytesInQueue;
             if (len < available)
@@ -140,7 +140,7 @@ namespace Epoche
 
         void KeccakAbsorb(byte[] data, int off)
         {
-            var count = Rate >> 6;
+            const int count = Rate >> 6;
             for (var i = 0; i < count; ++i)
             {
                 _state[i] ^= LE_To_UInt64(data, off);
