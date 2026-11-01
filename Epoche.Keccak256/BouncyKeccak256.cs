@@ -317,10 +317,8 @@ namespace Epoche
             bs[off + 3] = (byte)(n >> 24);
         }
 
-        static uint LE_To_UInt32(byte[] bs, int off) => bs[off]
-                   | ((uint)bs[off + 1] << 8)
-                   | ((uint)bs[off + 2] << 16)
-                   | ((uint)bs[off + 3] << 24);
+        static uint LE_To_UInt32(byte[] bs, int off) =>
+            bs[off] | ((uint)bs[off + 1] << 8) | ((uint)bs[off + 2] << 16) | ((uint)bs[off + 3] << 24);
 
         static void UInt64_To_LE(ulong n, byte[] bs, int off)
         {

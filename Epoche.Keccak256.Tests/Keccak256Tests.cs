@@ -21,9 +21,12 @@ public class Keccak256Tests
         Assert.Equal(expected, ToLowerHex(Keccak256.ComputeHash(bytes)));
         Assert.Equal(expected, Keccak256.ComputeHashString(bytes, false));
         Assert.Equal("0x" + expected, Keccak256.ComputeHashString(bytes, true));
-        Assert.Equal(expected, ToLowerHex(await Keccak256.ComputeHashAsync(new MemoryStream(bytes), cancellationToken)));
-        Assert.Equal(expected, await Keccak256.ComputeHashStringAsync(new MemoryStream(bytes), false, cancellationToken));
-        Assert.Equal("0x" + expected, await Keccak256.ComputeHashStringAsync(new MemoryStream(bytes), true, cancellationToken));
+        Assert.Equal(expected,
+            ToLowerHex(await Keccak256.ComputeHashAsync(new MemoryStream(bytes), cancellationToken)));
+        Assert.Equal(expected,
+            await Keccak256.ComputeHashStringAsync(new MemoryStream(bytes), false, cancellationToken));
+        Assert.Equal("0x" + expected,
+            await Keccak256.ComputeHashStringAsync(new MemoryStream(bytes), true, cancellationToken));
         Assert.Equal("0x" + expected[..8], Keccak256.ComputeEthereumFunctionSelector(input));
         Assert.Equal("0x" + expected[..8], Keccak256.ComputeEthereumFunctionSelector(input, true));
         Assert.Equal(expected[..8], Keccak256.ComputeEthereumFunctionSelector(input, false));
