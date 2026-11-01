@@ -1,4 +1,5 @@
 # Keccak256
+[![CI](https://github.com/joshlangs/Keccak256/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/joshlangs/Keccak256/actions/workflows/ci.yml)
 
 Use this to compute Keccak256 (Ethereum style) hashes.  For example, it can compute transaction hashes or function selectors.
 
